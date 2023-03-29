@@ -1,0 +1,31 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe",
+            "command": "C:/MinGW/bin/g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-LC:\\Program Files (x86)\\wxWidgets\\lib\\gcc_x64_dll",
+                "-IC:\\Program Files (x86)\\wxWidgets\\include",     
+                "-lwxmsw32u_core",
+                "-lwxbase32u"    
+            ],            
+            "options": {
+                "cwd": "C:/MinGW/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Vom Debugger generierte Aufgabe."
+        }
+    ],
+    "version": "2.0.0"
+}
