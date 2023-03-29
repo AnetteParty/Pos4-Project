@@ -1,0 +1,11 @@
+*~
+
+*.ii
+*.s
+*.o
+*.out
+*-swp
+
+.directory
+*/build
+
