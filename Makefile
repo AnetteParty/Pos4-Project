@@ -1,6 +1,7 @@
 WX_CONFIG := wx-config
 WX_CXXFLAGS := $(shell $(WX_CONFIG) --cxxflags)
 WX_LIBS := $(shell $(WX_CONFIG) --libs)
+LDFLAGS = -lsqlite3
 
 APPLICATION := Main
 OBJECTS := main.o

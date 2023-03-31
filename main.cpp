@@ -1,66 +1,87 @@
 #include <wx/wx.h>
-
-class MyFrame : public wxFrame {
-public:
-    MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title) {
-        wxPanel* panel = new wxPanel(this);
-        
-        // Textfeld erstellen, in dem der Button-Text angezeigt wird
-        m_textCtrl = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(20, 300), wxSize(200, 30));
-        
-        // Ersten 9 Buttons hinzufügen
-        for (int i = 0; i < 9; i++) {
-            wxButton* button = new wxButton(panel, wxID_ANY, wxString::Format("%d", i+1), 
-                wxPoint((i%3)*50 + 50, (i/3)*50 + 50), wxSize(50, 50));
-                
-            // Event-Handler für jeden Button hinzufügen
-            button->Bind(wxEVT_BUTTON, &MyFrame::OnButtonClicked, this);
-        }
-        
-        // Weitere Buttons hinzufügen
-        wxButton* addButton = new wxButton(panel, wxID_ANY, "+", wxPoint(20, 200), wxSize(50, 50));
-        addButton->Bind(wxEVT_BUTTON, &MyFrame::OnButtonClicked, this);
-        
-        wxButton* subtractButton = new wxButton(panel, wxID_ANY, "-", wxPoint(80, 200), wxSize(50, 50));
-        subtractButton->Bind(wxEVT_BUTTON, &MyFrame::OnButtonClicked, this);
-        
-        wxButton* multiplyButton = new wxButton(panel, wxID_ANY, "*", wxPoint(140, 200), wxSize(50, 50));
-        multiplyButton->Bind(wxEVT_BUTTON, &MyFrame::OnButtonClicked, this);
-        
-        wxButton* divideButton = new wxButton(panel, wxID_ANY, "/", wxPoint(200, 200), wxSize(50, 50));
-        divideButton->Bind(wxEVT_BUTTON, &MyFrame::OnButtonClicked, this);
-        
-        wxButton* equalsButton = new wxButton(panel, wxID_ANY, "=", wxPoint(260, 200), wxSize(50, 50));
-        equalsButton->Bind(wxEVT_BUTTON, &MyFrame::OnButtonClicked, this);
-        
-        wxButton* clearButton = new wxButton(panel, wxID_ANY, "C", wxPoint(320, 200), wxSize(50, 50));
-        clearButton->Bind(wxEVT_BUTTON, &MyFrame::OnButtonClicked, this);
-    }
-    
-    void OnButtonClicked(wxCommandEvent& event) {
-        // Button-Text im Textfeld anzeigen
-        wxButton* button = (wxButton*)event.GetEventObject();
-        wxString buttonText = button->GetLabel();
-        
-        // Nur Zahlen im Textfeld anzeigen
-        if (buttonText.IsNumber()) {
-            m_textCtrl->SetValue(buttonText);
-        }
-    }
-    
-private:
-    wxTextCtrl* m_textCtrl;
-};
+#include <wx/listctrl.h>
+#include <sqlite3.h>
 
 class MyApp : public wxApp {
 public:
-    virtual bool OnInit() {
-        MyFrame* frame = new MyFrame("Buttons Example");
-        frame->Show(true);
-        frame->SetClientSize(400, 400);
-        frame->Center();
-        return true;
-    }
+    virtual bool OnInit();
 };
+
+wxDECLARE_EVENT(LIST_UPDATED_EVENT, wxCommandEvent);
+
+class MyFrame : public wxFrame {
+public:
+    MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+
+    void OnListUpdated(wxCommandEvent& event);
+    void OnExit(wxCommandEvent& event);
+
+    wxListCtrl *m_list;
+};
+
+enum {
+    ID_Quit = 1
+};
+
+bool MyApp::OnInit() {
+    MyFrame *frame = new MyFrame("SQLite3 List Example", wxPoint(50, 50), wxSize(450, 350));
+    frame->Show(true);
+    return true;
+}
+
+MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
+    : wxFrame(NULL, wxID_ANY, title, pos, size)
+{
+    m_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
+    m_list->InsertColumn(0, "ID");
+    m_list->InsertColumn(1, "Name");
+    m_list->InsertColumn(2, "Value");
+
+    // Connect the List Updated event to OnListUpdated method
+    Connect(wxID_ANY, LIST_UPDATED_EVENT, wxCommandEventHandler(MyFrame::OnListUpdated));
+
+    // Connect the Quit event to OnExit method
+    wxMenuBar *menuBar = new wxMenuBar();
+    wxMenu *fileMenu = new wxMenu();
+    fileMenu->Append(ID_Quit, "&Quit");
+    menuBar->Append(fileMenu, "&File");
+    SetMenuBar(menuBar);
+    Connect(ID_Quit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MyFrame::OnExit));
+
+    // Open the SQLite database and execute the query
+    sqlite3 *db;
+    sqlite3_open("database.db", &db);
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2(db, "SELECT * FROM items", -1, &stmt, NULL);
+
+    wxCommandEvent event(LIST_UPDATED_EVENT);
+
+    wxListItem item;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        item.SetId(m_list->GetItemCount());
+        item.SetText(wxString::Format("%d", sqlite3_column_int(stmt, 0)));
+        m_list->InsertItem(item);
+
+        m_list->SetItem(item.GetId(), 1, wxString(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))));
+        m_list->SetItem(item.GetId(), 2, wxString::Format("%f", sqlite3_column_double(stmt, 2)));
+    }
+
+    // Close the database and finalize the query
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    // Send the List Updated event
+    wxPostEvent(this, event);
+}
+
+void MyFrame::OnListUpdated(wxCommandEvent& event) {
+    // Do nothing, just update the list
+}
+
+void MyFrame::OnExit(wxCommandEvent& event) {
+    Close(true);
+}
+
+wxDEFINE_EVENT(LIST_UPDATED_EVENT, wxCommandEvent);
 
 wxIMPLEMENT_APP(MyApp);

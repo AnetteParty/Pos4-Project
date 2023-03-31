@@ -10,9 +10,11 @@
                 "${file}",
                 "-o${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-LC:\\Program Files (x86)\\wxWidgets\\lib\\gcc_x64_dll",
-                "-IC:\\Program Files (x86)\\wxWidgets\\include",     
+                "-IC:\\Program Files (x86)\\wxWidgets\\include",   
+                "-LC:/sqlite/sqlite3/**",  
                 "-lwxmsw32u_core",
-                "-lwxbase32u"    
+                "-lwxbase32u",
+                "-lwxsqlite3",    
             ],            
             "options": {
                 "cwd": "C:/MinGW/bin"
