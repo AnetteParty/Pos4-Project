@@ -4,7 +4,7 @@ WX_LIBS := $(shell $(WX_CONFIG) --libs)
 LDFLAGS = -lsqlite3
 
 APPLICATION := Main
-OBJECTS := main.o
+OBJECTS := App.o MainFrame.o
 
 all: $(APPLICATION)
 

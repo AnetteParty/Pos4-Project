@@ -7,6 +7,8 @@ public:
     virtual bool OnInit();
 };
 
+wxDEFINE_EVENT(LIST_UPDATED_EVENT, wxCommandEvent);
+
 wxDECLARE_EVENT(LIST_UPDATED_EVENT, wxCommandEvent);
 
 class MyFrame : public wxFrame {
@@ -35,7 +37,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     m_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
     m_list->InsertColumn(0, "ID");
     m_list->InsertColumn(1, "Name");
-    m_list->InsertColumn(2, "Value");
+    m_list->InsertColumn(2, "Ingredients");
 
     // Connect the List Updated event to OnListUpdated method
     Connect(wxID_ANY, LIST_UPDATED_EVENT, wxCommandEventHandler(MyFrame::OnListUpdated));
@@ -51,37 +53,54 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     // Open the SQLite database and execute the query
     sqlite3 *db;
     sqlite3_open("database.db", &db);
-    sqlite3_stmt *stmt;
-    sqlite3_prepare_v2(db, "SELECT * FROM items", -1, &stmt, NULL);
+
+    // Add 5 cocktails to the database
+    sqlite3_exec(db, "INSERT INTO cocktails (name) VALUES ('Mojito');", NULL, NULL, NULL);
+    sqlite3_exec(db, "INSERT INTO cocktails (name) VALUES ('Caipirinha');", NULL, NULL, NULL);
+    sqlite3_exec(db, "INSERT INTO cocktails (name) VALUES ('Sex on the Beach');", NULL, NULL, NULL);
+    sqlite3_exec(db, "INSERT INTO cocktails (name) VALUES ('Cosmopolitan');", NULL, NULL, NULL);
+    sqlite3_exec(db, "INSERT INTO cocktails (name) VALUES ('Margarita');", NULL, NULL, NULL);
 
     wxCommandEvent event(LIST_UPDATED_EVENT);
 
     wxListItem item;
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2(db, "SELECT * FROM cocktails", -1, &stmt, NULL);
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         item.SetId(m_list->GetItemCount());
         item.SetText(wxString::Format("%d", sqlite3_column_int(stmt, 0)));
         m_list->InsertItem(item);
 
         m_list->SetItem(item.GetId(), 1, wxString(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))));
-        m_list->SetItem(item.GetId(), 2, wxString::Format("%f", sqlite3_column_double(stmt, 2)));
-    }
 
-    // Close the database and finalize the query
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
+        // Get the ingredients for the cocktail
+        wxString ingredients;
+        sqlite3_stmt *stmt2;
+        wxString query = "SELECT name FROM ingredients WHERE id IN (SELECT ingredient_id FROM cocktail_ingredients WHERE cocktail_id = " + wxString::Format("%d", sqlite3_column_int(stmt, 0)) + ")";
+        sqlite3_prepare_v2(db, query, -1, &stmt2, NULL);
+        while (sqlite3_step(stmt2) == SQLITE_ROW) {
+        if (!ingredients.empty()) {
+        ingredients += ", ";
+        }
+        ingredients += wxString(reinterpret_cast<const char*>(sqlite3_column_text(stmt2, 0)));
+        }
+            m_list->SetItem(item.GetId(), 2, ingredients);
+        }
 
-    // Send the List Updated event
-    wxPostEvent(this, event);
-}
+        sqlite3_finalize(stmt);
 
-void MyFrame::OnListUpdated(wxCommandEvent& event) {
-    // Do nothing, just update the list
-}
+        // Close the database
+        sqlite3_close(db);
+        }
 
-void MyFrame::OnExit(wxCommandEvent& event) {
-    Close(true);
-}
+        void MyFrame::OnListUpdated(wxCommandEvent& event) {
+        // Redraw the list
+        m_list->Refresh();
+        }
 
-wxDEFINE_EVENT(LIST_UPDATED_EVENT, wxCommandEvent);
+        void MyFrame::OnExit(wxCommandEvent& event) {
+        Close(true);
+        }
 
-wxIMPLEMENT_APP(MyApp);
+        wxIMPLEMENT_APP(MyApp);
+

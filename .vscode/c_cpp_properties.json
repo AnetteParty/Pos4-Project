@@ -3,10 +3,11 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}",
                 "C:/Program Files (x86)/wxWidgets/lib/gcc_x64_dll/**",
                 "C:/Program Files (x86)/wxWidgets/include/**",
-                "C:/wxWidgets-3.2.2.1/include/**"
+                "C:/wxWidgets-3.2.2.1/include/**",
+                "C:/Users/Robin/Desktop/Pos4-Project/sqlite3"
             ],
             "defines": [
                 "_DEBUG",
@@ -16,7 +17,7 @@
             "compilerPath": "C:/MinGW/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
-            "intelliSenseMode": "windows-gcc-x86"
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4
