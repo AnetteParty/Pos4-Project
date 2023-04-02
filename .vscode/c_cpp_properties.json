@@ -7,7 +7,8 @@
                 "C:/Program Files (x86)/wxWidgets/lib/gcc_x64_dll/**",
                 "C:/Program Files (x86)/wxWidgets/include/**",
                 "C:/wxWidgets-3.2.2.1/include/**",
-                "C:/Users/Robin/Desktop/Pos4-Project/sqlite3"
+                "C:/Users/Robin/Desktop/Pos4-Project/sqlite3",
+                "C:/wxWidgets-3.2.2.1/include/msvc/wx/"
             ],
             "defines": [
                 "_DEBUG",
