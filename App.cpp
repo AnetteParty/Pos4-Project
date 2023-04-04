@@ -5,7 +5,6 @@
 
 wxIMPLEMENT_APP(App);
 
-
 bool App::OnInit() {
 
     //wxSystemOptions::SetOption("gtk.no-gtk-cursor", "1");
