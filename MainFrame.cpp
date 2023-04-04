@@ -19,6 +19,7 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) 
     //dbSizer->Add(btnPanel, 1, wxEXPAND | wxALL, 5);
     //this->SetSizerAndFit(dbSizer);
     
+    
     dbButton = new wxButton(panel, wxID_ANY, "Generate Table", wxPoint(100, 10), wxSize(150,50));
     dbButton->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClicked, this);
     dbButton2 = new wxButton(panel, wxID_ANY, "Generate Data", wxPoint(300, 10), wxSize(150,50));
@@ -61,11 +62,41 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) 
 
 
 void MainFrame::OnButtonClicked(wxCommandEvent& event) {
+
     sqlite3_open("datenbank.db", &db);
     sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Cocktails (id INTEGER PRIMARY KEY,name TEXT,description TEXT,ingredients TEXT,price TEXT)", NULL, NULL, NULL);
     sqlite3_close(db);
 
-    /*     wxArrayString data; // Array zum Speichern des Abfrageergebnisses
+    sqlite3_open("datenbank.db", &db);
+
+    // SQL-Abfrage zum Abrufen der Daten aus der Tabelle
+    wxArrayString data;
+    sqlite3_exec(db, "SELECT * FROM Cocktails", callback, &data, NULL);
+
+    // Schließen der Verbindung zur Datenbank
+    sqlite3_close(db);
+
+    // Anzeigen der Daten in einem Grid
+    dbGrid = new wxGrid(this, wxID_ANY, wxPoint(10, 10), wxSize(400,400));
+    dbSizer->Add(dbGrid, 1, wxALL|wxEXPAND, 10);  
+    dbSizer->AddStretchSpacer();  
+
+    dbGrid->CreateGrid(data.GetCount(), 5);
+    for (int i = 0; i < data.GetCount(); i++) {
+        wxStringTokenizer tkz(data[i], ",");
+        for (int j = 0; j < 5 && tkz.HasMoreTokens(); j++) {
+            wxString token = tkz.GetNextToken();
+            dbGrid->SetCellValue(i, j, token);
+        }
+    }
+
+    dbGrid->ForceRefresh();
+}
+
+    /*
+
+
+    wxArrayString data; // Array zum Speichern des Abfrageergebnisses
     sqlite3_open("datenbank.db", &db);
     sqlite3_exec(db, "SELECT FROM Cocktails", callback, &data, NULL);
     sqlite3_close(db);
@@ -86,7 +117,7 @@ void MainFrame::OnButtonClicked(wxCommandEvent& event) {
 
     dbGrid->ForceRefresh();
      */
-}
+
 
 void MainFrame::OnButton2Clicked(wxCommandEvent& event) {
 
@@ -108,7 +139,7 @@ void MainFrame::OnButton2Clicked(wxCommandEvent& event) {
 
     wxString sql = wxString::Format("INSERT INTO Cocktails (name, description, ingredients, price) VALUES ('%s', '%s', '%s', '%s')",
                                     name, desc, ing, price);
-                                    
+
     sqlite3_open("datenbank.db", &db);
     sqlite3_exec(db, sql, NULL, NULL, NULL);
     sqlite3_close(db);
