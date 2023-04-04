@@ -4,11 +4,15 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}",
-                "C:/Program Files (x86)/wxWidgets/lib/gcc_x64_dll/**",
+                "C:/Program Files (x86)/wxWidgets/lib/gcc_x64_dll",
                 "C:/Program Files (x86)/wxWidgets/include/**",
-                "C:/wxWidgets-3.2.2.1/include/**",
+                "C:\\Program Files (x86)\\wxWidgets\\lib\\gcc_x64_dll",
+                "C:\\Program Files (x86)\\wxWidgets\\include",
+                "C:\\wxWidgets-3.2.2.1\\include",
+                "C:\\wxsqlite3-3.3.1\\wxsqlite3-3.3.1\\sqlite3\\secure\\src",
                 "C:/Users/Robin/Desktop/Pos4-Project/sqlite3",
-                "C:/wxWidgets-3.2.2.1/include/msvc/wx/"
+                "C:\\wxWidgets-3.2.2.1\\include\\msvc\\wx",
+                "C:/Program Files (x86)/wxWidgets/lib/gcc_x64_dll/mswu"
             ],
             "defines": [
                 "_DEBUG",

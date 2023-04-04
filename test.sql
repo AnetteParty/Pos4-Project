@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS Cocktails (id INTEGER PRIMARY KEY,name TEXT,description TEXT,ingredients TEXT,price TEXT);
