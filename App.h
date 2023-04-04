@@ -8,3 +8,6 @@ public:
     bool OnInit();
        
 };
+
+wxIMPLEMENT_APP(App);
+

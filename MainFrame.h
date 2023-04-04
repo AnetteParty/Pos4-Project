@@ -2,6 +2,7 @@
 #include <wx/grid.h>
 #include <sqlite3.h>
 #include <wx/sizer.h>
+#include <wx/gdicmn.h>
 
 
 class MainFrame : public wxFrame {
@@ -14,9 +15,17 @@ public:
     void OnDeleteButtonClicked(wxCommandEvent& event);
     static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 
+    enum class InputType {
+        SingleLine,
+        MultiLine
+    };
+
+    
 
 private:
 
+    wxPanel *panel;
+    
     wxButton *dbButton;
     wxButton *dbButton2;
     wxButton *dbButtonDel;

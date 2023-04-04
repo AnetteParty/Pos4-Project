@@ -15,7 +15,8 @@
                 "-LC:/wxWidgets-3.2.2.1/include/msvc/wx/",
                 "-lwxmsw32u_core",
                 "-lwxbase32u",
-                "-lwxsqlite3",    
+                "-lwxsqlite3",
+                "-lwx_gtk3u-3.0", 
             ],            
             "options": {
                 "cwd": "C:/MinGW/bin"
