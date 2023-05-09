@@ -1,0 +1,61 @@
+id,name,deko,alkoholhaltig
+1,Zucker Sirup,0,0
+2,Zitronensaft,0,0
+3,Limettensaft,0,0
+4,Gin,0,1
+5,Wodka,0,1
+6,Aromatische Bitter,0,1
+7,Cognac,0,1
+8,Trockener Wermut,0,1
+9,Rosso Wermut,0,1
+10,Orangenbitter,0,1
+11,Orangensaft,0,0
+12,Triple Sec Likör,0,1
+13,Ananassaft,0,0
+14,Weißer Rum,0,1
+15,Bourbon Whiskey,0,1
+16,Eiweiß,0,0
+17,Sodawasser,0,0
+18,Tequila Reposado,0,1
+19,Grenadine Sirup,0,0
+20,Grapefruitsaft,0,0
+21,Apfelsaft,0,0
+22,Maraschino Likör,0,1
+23,Absinth,0,1
+24,Cranberrysaft,0,0
+25,Italienischer roter Bitterlikör,0,1
+26,Scotch Whisky,0,1
+27,Sahne,0,0
+28,Holunderblütenlikör,0,1
+29,Brut Sekt,0,1
+30,Cognac Orangenlikör,0,1
+31,Calvados,0,1
+32,Roggenwhiskey,0,1
+33,Aprikosenlikör,0,1
+34,Minzblätter,1,0
+35,Creole Bitter,0,1
+36,Goldener Rum,0,1
+37,Kaffeelikör,0,1
+38,Bénédictine D.O.M. Likör,0,1
+39,Amaretto Likör,0,1
+40,Gut gereifter Rum,0,1
+41,Orangen Curaçao Likör,0,1
+42,Chartreuse Verte,0,1
+43,Mezcal,0,1
+44,Crème de Cacao Likör,0,1
+45,Kirschlikör,0,1
+46,Enzianlikör,0,1
+47,Honig Sirup,0,0
+48,Schwarzer Himbeerlikör,0,1
+49,Orgeat Sirup,0,0
+50,Blanco Tequila,0,1
+51,Agavensirup,0,0
+52,Salzlösung,0,0
+53,Cachaça,0,1
+54,Fino Sherry,0,1
+55,Chartreuse Jaune,0,1
+56,Ingwer Ale,0,0
+57,Falernum Likör,0,1
+58,Crème de Banane Likör,0,1
+59,Lillet Blanc,0,1
+60,Torfiger Scotch Whisky,0,1

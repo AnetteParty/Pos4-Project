@@ -3,7 +3,6 @@
 
 SecondWindow::SecondWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Cocktail", wxDefaultPosition, wxSize(800, 800)) {
 
-
     //mainWin = std::make_shared<MainWindow>(this);
     wxBoxSizer *sizerTwo = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
@@ -13,7 +12,7 @@ SecondWindow::SecondWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Co
     staticBoxSizer->Add(label, 0, wxALL, 5);
 
     sqlite3 *db;
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/neu/database.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no open");
@@ -21,7 +20,7 @@ SecondWindow::SecondWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Co
     }
 
     sqlite3_stmt *stmt;
-    rc = sqlite3_prepare_v2(db, "SELECT ID, Name, Description, Ingredients FROM cocktails", -1, &stmt, NULL);
+    rc = sqlite3_prepare_v2(db, "SELECT id, name, beschreibung FROM cocktail", -1, &stmt, NULL);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no prepare");
@@ -32,19 +31,19 @@ SecondWindow::SecondWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Co
     listCtrl->InsertColumn(0, "ID");
     listCtrl->InsertColumn(1, "Name");
     listCtrl->InsertColumn(2, "Beschreibung");
-    listCtrl->InsertColumn(3, "Zutaten");
+    //listCtrl->InsertColumn(3, "Zutaten");
     staticBoxSizer->Add(listCtrl, 1, wxEXPAND);
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
 
         int id = sqlite3_column_int(stmt, 0);
         const unsigned char *name = sqlite3_column_text(stmt, 1);
-        const unsigned char *description = sqlite3_column_text(stmt, 2);
-        const unsigned char *ingredients = sqlite3_column_text(stmt, 3);
+        const unsigned char *beschreibung = sqlite3_column_text(stmt, 2);
+        //const unsigned char *ingredients = sqlite3_column_text(stmt, 3);
         long index = listCtrl->InsertItem(listCtrl->GetItemCount(), wxString::Format("%d", id));
         listCtrl->SetItem(index, 1, wxString::FromUTF8((const char*)name));
-        listCtrl->SetItem(index, 2, wxString::FromUTF8((const char*)description));
-        listCtrl->SetItem(index, 3, wxString::FromUTF8((const char*)ingredients));
+        listCtrl->SetItem(index, 2, wxString::FromUTF8((const char*)beschreibung));
+        //listCtrl->SetItem(index, 3, wxString::FromUTF8((const char*)ingredients));
     }
 
     
@@ -54,14 +53,14 @@ SecondWindow::SecondWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Co
 
     textCtrl1 = new wxTextCtrl(this, wxID_ANY, "Name", wxDefaultPosition, wxDefaultSize);	
 	textCtrl2 = new wxTextCtrl(this, wxID_ANY, "Beschreibung", wxDefaultPosition, wxSize(200, -1));
-	textCtrl3 = new wxTextCtrl(this, wxID_ANY, "Zutaten", wxDefaultPosition, wxDefaultSize);
+	//textCtrl3 = new wxTextCtrl(this, wxID_ANY, "Zutaten", wxDefaultPosition, wxDefaultSize);
     buttonAdd = new wxButton(this, wxID_ANY, "Add");
     buttonDelete = new wxButton(this, wxID_ANY, "Delete");
     buttonClose = new wxButton(this, wxID_ANY, "Close",wxPoint(500, 600),wxDefaultSize);
 
     textCtrl1->Connect(wxEVT_SET_FOCUS, wxFocusEventHandler(SecondWindow::OnTextCtrlFocus), NULL, this);
     textCtrl2->Connect(wxEVT_SET_FOCUS, wxFocusEventHandler(SecondWindow::OnTextCtrlFocus), NULL, this);
-    textCtrl3->Connect(wxEVT_SET_FOCUS, wxFocusEventHandler(SecondWindow::OnTextCtrlFocus), NULL, this);
+    //textCtrl3->Connect(wxEVT_SET_FOCUS, wxFocusEventHandler(SecondWindow::OnTextCtrlFocus), NULL, this);
     buttonDelete->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SecondWindow::OnButtonDeleteClicked), NULL, this);
     buttonAdd->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SecondWindow::OnButtonAddClicked), NULL, this);
     buttonClose->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(SecondWindow::OnButtonCloseClicked), NULL, this);
@@ -69,7 +68,7 @@ SecondWindow::SecondWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Co
 
     hbox->Add(textCtrl1, 0, wxALL, 5);
     hbox->Add(textCtrl2, 0, wxALL, 5);
-	hbox->Add(textCtrl3, 0, wxALL, 5);
+	//hbox->Add(textCtrl3, 0, wxALL, 5);
 
 	sizerTwo->Add(hbox, 0, wxALL, 5);
     hbox->Add(buttonAdd, 0, wxALL, 5);
@@ -95,7 +94,7 @@ void SecondWindow::UpdateList() {
     listCtrl->DeleteAllItems();
 
     sqlite3 *db;
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/neu/database.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no open");
@@ -103,7 +102,7 @@ void SecondWindow::UpdateList() {
     }
 
     sqlite3_stmt *stmt;
-    rc = sqlite3_prepare_v2(db, "SELECT ID, Name, Description, Ingredients FROM cocktails", -1, &stmt, NULL);
+    rc = sqlite3_prepare_v2(db, "SELECT id, name, beschreibung FROM cocktail", -1, &stmt, NULL);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no prepare");
@@ -114,12 +113,12 @@ void SecondWindow::UpdateList() {
 
         int id = sqlite3_column_int(stmt, 0);
         const unsigned char *name = sqlite3_column_text(stmt, 1);
-        const unsigned char *description = sqlite3_column_text(stmt, 2);
-        const unsigned char *ingredients = sqlite3_column_text(stmt, 3);
+        const unsigned char *beschreibung = sqlite3_column_text(stmt, 2);
+        //const unsigned char *ingredients = sqlite3_column_text(stmt, 3);
         long index = listCtrl->InsertItem(listCtrl->GetItemCount(), wxString::Format("%d", id));
         listCtrl->SetItem(index, 1, wxString::FromUTF8((const char*)name));
-        listCtrl->SetItem(index, 2, wxString::FromUTF8((const char*)description));
-        listCtrl->SetItem(index, 3, wxString::FromUTF8((const char*)ingredients));
+        listCtrl->SetItem(index, 2, wxString::FromUTF8((const char*)beschreibung));
+        //listCtrl->SetItem(index, 3, wxString::FromUTF8((const char*)ingredients));
     }
 
     sqlite3_finalize(stmt);
@@ -131,19 +130,19 @@ void SecondWindow::OnButtonAddClicked(wxCommandEvent& event) {
 	std::cout << "Inserting Data yay" << std::endl;
 
     wxString name = textCtrl1->GetValue();
-    wxString description = textCtrl2->GetValue();
-    wxString ingredients = textCtrl3->GetValue();
+    wxString beschreibung = textCtrl2->GetValue();
+    //wxString ingredients = textCtrl3->GetValue();
     
 
     sqlite3 *db;
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/neu/database.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no open");
         return;
     }
 
-    wxString query = wxString::Format("INSERT INTO cocktails (Name, Description, Ingredients) VALUES ('%s', '%s', '%s')", name.c_str(), description.c_str(), ingredients.c_str());
+    wxString query = wxString::Format("INSERT INTO cocktail (name, beschreibung) VALUES ('%s', '%s')", name.c_str(), beschreibung.c_str());
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, NULL);
 
     if (rc != SQLITE_OK) {
@@ -167,14 +166,14 @@ void SecondWindow::OnButtonDeleteClicked(wxCommandEvent& event) {
     wxString id = listCtrl->GetItemText(itemIndex);
 
     sqlite3 *db;
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/neu/database.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no open");
         return;
     }
 
-    wxString query = wxString::Format("DELETE FROM cocktails WHERE ID=%s", id.c_str());
+    wxString query = wxString::Format("DELETE FROM cocktail WHERE ID=%s", id.c_str());
     rc = sqlite3_exec(db, query.c_str(), NULL, NULL, NULL);
 
     if (rc != SQLITE_OK) {

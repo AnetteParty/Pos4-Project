@@ -13,7 +13,6 @@
 #include "MainWindow.h"
 
 //class MainWindow;
-
 class SecondWindow : public wxFrame {
 
 private:

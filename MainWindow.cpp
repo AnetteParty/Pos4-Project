@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "SecondWindow.h"
- 
+
+
 class MyApp : public wxApp {
 
 public:
@@ -21,16 +22,19 @@ wxIMPLEMENT_APP(MyApp);
 
 ///////////////////////////////////////////////////////////////////////////
 
-MainWindow::MainWindow(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) 
+MainWindow::MainWindow(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) 
 : wxFrame(parent, id, title, pos, size, style) {
 
     secondWindow = new SecondWindow(this);
+    thirdWindow = new ThirdWindow(this);
 
-    wxButton* myButton = new wxButton(this, wxID_ANY, "Open DB", wxPoint(350, 350));
+    wxButton *myButton = new wxButton(this, wxID_ANY, "Open DB", wxPoint(350, 350));
+    wxButton *myButton2 = new wxButton(this, wxID_ANY, "Zutaten", wxPoint(400, 350));
 
-    wxBoxSizer* sizerOne = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *sizerOne = new wxBoxSizer(wxVERTICAL);
 
     myButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainWindow::OnButtonClicked), NULL, this);
+    myButton2->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainWindow::OnButton2Clicked), NULL, this);
 
     listBox = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxSize(300, 300), 0, NULL, wxLB_SINGLE);
     listBoxTwo = new wxListBox(this, wxID_ANY, wxPoint(310, 0), wxSize(300, 300), 0, NULL, wxLB_SINGLE);
@@ -42,16 +46,17 @@ MainWindow::MainWindow(wxWindow* parent, wxWindowID id, const wxString& title, c
     sizerOne->Add(listBox, 0, wxALL, 5);
     sizerOne->Add(checkBox, 0, wxALL, 5);
     sizerOne->Add(myButton, 0, wxALL, 5);
+    sizerOne->Add(myButton2, 0, wxALL, 5);
    
     UpdateListBox("SELECT name FROM zutaten;", listBox);
-    UpdateListBox("SELECT name FROM zutaten;", listBoxTwo);
+    UpdateListBox("SELECT name FROM cocktail;", listBoxTwo);
     SetSizer(sizerOne);
 
     // zum inhalt an sizer anpassen
     //Fit();
 }
 
-void MainWindow::OnCheckBox(wxCommandEvent& event) {
+void MainWindow::OnCheckBox(wxCommandEvent &event) {
 
     if (checkBox->IsChecked()) {
         UpdateListBox("SELECT name FROM zutaten WHERE alkoholhaltig = 1;", listBox);
@@ -61,17 +66,22 @@ void MainWindow::OnCheckBox(wxCommandEvent& event) {
 }
 
 
-void MainWindow::OnButtonClicked(wxCommandEvent& event) {
+void MainWindow::OnButtonClicked(wxCommandEvent &event) {
 
     secondWindow->Show(true);
 }
 
-void MainWindow::UpdateListBox(const std::string& sql,wxListBox* listBox) {
+void MainWindow::OnButton2Clicked(wxCommandEvent &event) {
+
+    thirdWindow->Show(true);
+}
+
+void MainWindow::UpdateListBox(const std::string &sql,wxListBox *listBox) {
         listBox->Clear();
 
-        sqlite3_stmt *stmt;
+        sqlite3_stmt *stmt = nullptr;
         
-        int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/neu/cocktail_db.db", &db);
+        int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
 
         if (rc != SQLITE_OK) {
             wxMessageBox("Fehler beim Öffnen der Datenbank!");

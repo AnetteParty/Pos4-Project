@@ -1,0 +1,362 @@
+[
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 1,
+        "name": "Zucker Sirup"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 2,
+        "name": "Zitronensaft"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 3,
+        "name": "Limettensaft"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 4,
+        "name": "Gin"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 5,
+        "name": "Wodka"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 6,
+        "name": "Aromatische Bitter"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 7,
+        "name": "Cognac"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 8,
+        "name": "Trockener Wermut"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 9,
+        "name": "Rosso Wermut"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 10,
+        "name": "Orangenbitter"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 11,
+        "name": "Orangensaft"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 12,
+        "name": "Triple Sec Likör"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 13,
+        "name": "Ananassaft"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 14,
+        "name": "Weißer Rum"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 15,
+        "name": "Bourbon Whiskey"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 16,
+        "name": "Eiweiß"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 17,
+        "name": "Sodawasser"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 18,
+        "name": "Tequila Reposado"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 19,
+        "name": "Grenadine Sirup"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 20,
+        "name": "Grapefruitsaft"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 21,
+        "name": "Apfelsaft"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 22,
+        "name": "Maraschino Likör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 23,
+        "name": "Absinth"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 24,
+        "name": "Cranberrysaft"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 25,
+        "name": "Italienischer roter Bitterlikör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 26,
+        "name": "Scotch Whisky"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 27,
+        "name": "Sahne"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 28,
+        "name": "Holunderblütenlikör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 29,
+        "name": "Brut Sekt"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 30,
+        "name": "Cognac Orangenlikör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 31,
+        "name": "Calvados"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 32,
+        "name": "Roggenwhiskey"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 33,
+        "name": "Aprikosenlikör"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 1,
+        "id": 34,
+        "name": "Minzblätter"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 35,
+        "name": "Creole Bitter"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 36,
+        "name": "Goldener Rum"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 37,
+        "name": "Kaffeelikör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 38,
+        "name": "Bénédictine D.O.M. Likör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 39,
+        "name": "Amaretto Likör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 40,
+        "name": "Gut gereifter Rum"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 41,
+        "name": "Orangen Curaçao Likör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 42,
+        "name": "Chartreuse Verte"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 43,
+        "name": "Mezcal"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 44,
+        "name": "Crème de Cacao Likör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 45,
+        "name": "Kirschlikör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 46,
+        "name": "Enzianlikör"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 47,
+        "name": "Honig Sirup"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 48,
+        "name": "Schwarzer Himbeerlikör"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 49,
+        "name": "Orgeat Sirup"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 50,
+        "name": "Blanco Tequila"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 51,
+        "name": "Agavensirup"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 52,
+        "name": "Salzlösung"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 53,
+        "name": "Cachaça"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 54,
+        "name": "Fino Sherry"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 55,
+        "name": "Chartreuse Jaune"
+    },
+    {
+        "alkoholhaltig": 0,
+        "deko": 0,
+        "id": 56,
+        "name": "Ingwer Ale"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 57,
+        "name": "Falernum Likör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 58,
+        "name": "Crème de Banane Likör"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 59,
+        "name": "Lillet Blanc"
+    },
+    {
+        "alkoholhaltig": 1,
+        "deko": 0,
+        "id": 60,
+        "name": "Torfiger Scotch Whisky"
+    }
+]

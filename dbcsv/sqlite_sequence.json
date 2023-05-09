@@ -1,0 +1,14 @@
+[
+    {
+        "name": "cocktail",
+        "seq": 1
+    },
+    {
+        "name": "zutaten",
+        "seq": 60
+    },
+    {
+        "name": "cocktail_list",
+        "seq": 0
+    }
+]

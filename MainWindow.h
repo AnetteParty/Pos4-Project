@@ -11,14 +11,15 @@
 #include <wx/frame.h>
 
 #include "SecondWindow.h"
+#include "ThirdWindow.h"
 
 //class SecondWindow;
-
 class MainWindow : public wxFrame {
 	private:	
-		void OnButtonClicked(wxCommandEvent& event);
-		void OnCheckBox(wxCommandEvent& event);
-		void UpdateListBox(const std::string &sql, wxListBox* listBox);
+		void OnButtonClicked(wxCommandEvent &event);
+		void OnButton2Clicked(wxCommandEvent &event);
+		void OnCheckBox(wxCommandEvent &event);
+		void UpdateListBox(const std::string &sql, wxListBox *listBox);
 		
 	public:
 		// muss genau so Konstruiert werden! Jede kleine Abweichung führt sofort zu GTK crit errors!!!
@@ -43,10 +44,10 @@ class MainWindow : public wxFrame {
 
 		sqlite3 *db;
 
-		//sqlite3_stmt *stmt;
-    	sqlite3_stmt *stmt2;
+		sqlite3_stmt *stmt;
 
 		SecondWindow *secondWindow;
+		ThirdWindow *thirdWindow;
 		
 		~MainWindow();	
 };

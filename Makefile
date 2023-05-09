@@ -8,7 +8,7 @@ LDFLAGS = -lsqlite3
 CXXFLAGS = -g
 
 APPLICATION := main
-OBJECTS := MainWindow.o SecondWindow.o
+OBJECTS := MainWindow.o SecondWindow.o ThirdWindow.o
 
 all: $(APPLICATION)
 
