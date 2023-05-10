@@ -16,28 +16,33 @@
 class SecondWindow : public wxFrame {
 
 private:
-    
+    void UpdateListBox(const std::string &sql,wxListBox *listBox);
+    void UpdateList();
+    void OnCheckBox(wxCommandEvent &event);
+    void OnButtonAddZutatClicked(wxCommandEvent& event);
+    void OnButtonDeleteClicked(wxCommandEvent& event);
+    void OnButtonCloseClicked(wxCommandEvent& event);
+    void OnTextCtrlFocus(wxFocusEvent& event);
+    //void UpdateListBox(const std::string &sql, wxListBox *listBox);
     
 public:
     SecondWindow(wxWindow *parent);
 
-    //MainWindow(wxWindow *mainWin);
-    //std::shared_ptr<MainWindow> mainWin;
+    sqlite3 *db;
+
+    wxListCtrl *listCtrl;
+	wxCheckBox *checkBox;
+
+	wxListBox *listBox;
+	wxListBox *listBoxTwo;
 
     wxButton *buttonAdd;
     wxButton *buttonDelete;
     wxButton *buttonClose;
 
-    wxListCtrl *listCtrl;
     wxTextCtrl *textCtrl1;
     wxTextCtrl *textCtrl2;
     wxTextCtrl *textCtrl3;
 
-    void UpdateList();
-    void OnButtonAddClicked(wxCommandEvent& event);
-    void OnButtonDeleteClicked(wxCommandEvent& event);
-    void OnButtonCloseClicked(wxCommandEvent& event);
-    void OnTextCtrlFocus(wxFocusEvent& event);
-    
     ~SecondWindow();
 };

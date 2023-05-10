@@ -20,12 +20,13 @@ class ThirdWindow : public wxFrame {
 private:
     void UpdateChoice();
     void UpdateComboBox();
-    
+    void OnButtonCloseClicked(wxCommandEvent &event);
+
 public:
     ThirdWindow(wxWindow *parent);
-    sqlite3 *db;
     wxChoice *choice;
+    sqlite3 *db;
     wxComboBox *comboBox;
-    
+
     ~ThirdWindow();
 };

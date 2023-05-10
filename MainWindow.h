@@ -17,27 +17,17 @@
 class MainWindow : public wxFrame {
 	private:	
 		void OnButtonClicked(wxCommandEvent &event);
-		void OnButton2Clicked(wxCommandEvent &event);
-		void OnCheckBox(wxCommandEvent &event);
-		void UpdateListBox(const std::string &sql, wxListBox *listBox);
+		void OnButtonAddClicked(wxCommandEvent &event);
+		void OnButtonCloseClicked(wxCommandEvent &event);
+		void OnButtonDeleteClicked(wxCommandEvent &event);
+		void OnButtonRefreshClicked(wxCommandEvent& event);
+		void UpdateList();
 		
 	public:
-		// muss genau so Konstruiert werden! Jede kleine Abweichung führt sofort zu GTK crit errors!!!
-		MainWindow(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), 
-		const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, 
-		long style = wxDEFAULT_FRAME_STYLE|wxSYSTEM_MENU|wxALWAYS_SHOW_SB|wxSIMPLE_BORDER|wxTAB_TRAVERSAL);
+		MainWindow(wxWindow *parent);
 
-		wxButton *m_button4;
-
+		wxListCtrl *listCtrl;
 		wxCheckBox *checkBox;
-
-		wxTextCtrl *textCtrl1;
-    	wxTextCtrl *textCtrl2;
-    	wxTextCtrl *textCtrl3;
-
-		wxString name;
-    	wxString description;
-    	wxString ingredients;
 
 		wxListBox *listBox;
 		wxListBox *listBoxTwo;
