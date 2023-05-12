@@ -5,7 +5,6 @@
 #include "ThirdWindow.h"
 
 ThirdWindow::ThirdWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Cocktail", wxDefaultPosition, wxSize(1000, 800)) {
-
     choice = new wxChoice(this, wxID_ANY);
     UpdateChoice();
 
@@ -138,23 +137,32 @@ ThirdWindow::ThirdWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Cock
                 return;
             }
         }
-        wxMessageBox("Cocktail added to Db");
-        sqlite3_close(db);
-
-        // Lösche den Inhalt von nameTextCtrl
-        nameTextCtrl->SetValue("");
-
-        // Lösche den Inhalt von zubereitungTextCtrl
-        zubereitungTextCtrl->SetValue("");
-
-        // Lösche den Inhalt von displayStaticText
-        displayStaticText->SetLabel("");
-        currentText="";
         
+        /* 
+        // alles wieder reset
+        nameTextCtrl->SetLabel("");
+        zubereitungTextCtrl->SetLabel("");
+        displayStaticText->SetLabel("");
+        nameTextCtrl->SetValue("");
+        zubereitungTextCtrl->SetValue("");
+        displayStaticText->SetLabelText("");
+        lines.Empty();
+        lines.Clear();
+        currentText.Empty();
+        currentText.Clear();
+        beschreibung.Clear();
+        name.Clear();
         addButton->Show();
         addButton2->Show();
-        
-        this->Show(false);
+        nameTextCtrl->SetEditable(true);
+        nameTextCtrl->SetBackgroundColour(wxColour(255,255,255)); 
+        zubereitungTextCtrl->SetEditable(true);
+        zubereitungTextCtrl->SetBackgroundColour(wxColour(255,255,255));
+        */
+
+        sqlite3_close(db);
+        wxMessageBox("Cocktail added to Db");
+        this->Show(false); 
     });
 
     comboBox2->Append(wxT("Liter"));
@@ -241,15 +249,12 @@ void ThirdWindow::UpdateChoice() {
 }
 
 void ThirdWindow::OnButtonCloseClicked(wxCommandEvent& event) {
-    
-    //mainWin->UpdateListBox(mainWin->listBox);
-    //sqlite3_close(db);
+    // leider unmöglich wäre aber die Lösung
+    //MainWindow::UpdateList();
+
     this->Show(false);
+    this->Close();
 }
 
-ThirdWindow::~ThirdWindow() {
-    //wxMessageBox("Destuctor called");
-    //sqlite3_close(db);
-    this->Show(false);
-}
+ThirdWindow::~ThirdWindow() {}
 

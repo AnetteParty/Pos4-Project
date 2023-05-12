@@ -21,8 +21,8 @@ class MainWindow : public wxFrame {
 		void OnButtonCloseClicked(wxCommandEvent &event);
 		void OnButtonDeleteClicked(wxCommandEvent &event);
 		void OnButtonRefreshClicked(wxCommandEvent& event);
-		void UpdateList();
-		
+		virtual void UpdateList();
+
 	public:
 		MainWindow(wxWindow *parent);
 
@@ -36,6 +36,7 @@ class MainWindow : public wxFrame {
 
 		sqlite3_stmt *stmt;
 
+		MainWindow *mainWindow;
 		SecondWindow *secondWindow;
 		ThirdWindow *thirdWindow;
 		

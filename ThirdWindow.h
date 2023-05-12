@@ -24,6 +24,7 @@ private:
 
 public:
     ThirdWindow(wxWindow *parent);
+
     wxChoice *choice;
     sqlite3 *db;
     wxComboBox *comboBox;

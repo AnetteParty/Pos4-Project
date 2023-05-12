@@ -11,7 +11,7 @@ bool MyApp::OnInit() {
     
     MainWindow *mainWindow = new MainWindow(NULL);
     mainWindow->SetSize(wxSize(900, 900));
-    mainWindow->Center(true);
+    mainWindow->CentreOnScreen();
     mainWindow->Show(true);
     return true;
 
@@ -96,8 +96,6 @@ MainWindow::MainWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Cocktail A
 
 }
 
-
-
 void MainWindow::OnButtonClicked(wxCommandEvent &event) {
 
     secondWindow->Show(true);
@@ -105,6 +103,9 @@ void MainWindow::OnButtonClicked(wxCommandEvent &event) {
 
 void MainWindow::OnButtonAddClicked(wxCommandEvent &event) {
 
+    ThirdWindow *thirdWindow = new ThirdWindow(NULL);
+    thirdWindow->SetSize(wxSize(1000, 800));
+    thirdWindow->CentreOnScreen();
     thirdWindow->Show(true);
 }
 
@@ -173,20 +174,17 @@ void MainWindow::UpdateList() {
         listCtrl->SetItem(index, 2, wxString::FromUTF8((const char*)beschreibung));     
     }
     sqlite3_finalize(stmt);
+    sqlite3_close(db);
 }
 
 
 void MainWindow::OnButtonCloseClicked(wxCommandEvent& event) {
-    
-    //mainWin->UpdateListBox(mainWin->listBox);
-    sqlite3_close(db);
+    //wxMessageBox("Goodbye!");
     this->Close();
 }
 
-// destructor
-MainWindow::~MainWindow() {
-    sqlite3_close(db);
-}
+
+MainWindow::~MainWindow() {}
 
 
 
