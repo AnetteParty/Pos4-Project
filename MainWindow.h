@@ -21,6 +21,7 @@ class MainWindow : public wxFrame {
 		void OnButtonCloseClicked(wxCommandEvent &event);
 		void OnButtonDeleteClicked(wxCommandEvent &event);
 		void OnButtonRefreshClicked(wxCommandEvent& event);
+		void OnListCtrlItemSelect(wxListEvent& event);
 		virtual void UpdateList();
 
 	public:

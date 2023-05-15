@@ -138,28 +138,6 @@ ThirdWindow::ThirdWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Cock
             }
         }
         
-        /* 
-        // alles wieder reset
-        nameTextCtrl->SetLabel("");
-        zubereitungTextCtrl->SetLabel("");
-        displayStaticText->SetLabel("");
-        nameTextCtrl->SetValue("");
-        zubereitungTextCtrl->SetValue("");
-        displayStaticText->SetLabelText("");
-        lines.Empty();
-        lines.Clear();
-        currentText.Empty();
-        currentText.Clear();
-        beschreibung.Clear();
-        name.Clear();
-        addButton->Show();
-        addButton2->Show();
-        nameTextCtrl->SetEditable(true);
-        nameTextCtrl->SetBackgroundColour(wxColour(255,255,255)); 
-        zubereitungTextCtrl->SetEditable(true);
-        zubereitungTextCtrl->SetBackgroundColour(wxColour(255,255,255));
-        */
-
         sqlite3_close(db);
         wxMessageBox("Cocktail added to Db");
         this->Show(false); 
@@ -200,7 +178,7 @@ ThirdWindow::ThirdWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Add Cock
 
 void ThirdWindow::UpdateComboBox() {
 
-    int rc = sqlite3_open("cocktail_db.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/foxfo/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox(wxT("Can't open database"));
@@ -225,7 +203,7 @@ void ThirdWindow::UpdateComboBox() {
 
 void ThirdWindow::UpdateChoice() {
 
-    int rc = sqlite3_open("cocktail_db.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/foxfo/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox(wxT("Can't open database"));

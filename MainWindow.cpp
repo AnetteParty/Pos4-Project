@@ -8,9 +8,9 @@ public:
 };
 
 bool MyApp::OnInit() {
-    
+    wxInitAllImageHandlers();
     MainWindow *mainWindow = new MainWindow(NULL);
-    mainWindow->SetSize(wxSize(900, 900));
+    mainWindow->SetSize(wxSize(1400, 850));
     mainWindow->CentreOnScreen();
     mainWindow->Show(true);
     return true;
@@ -22,6 +22,11 @@ wxIMPLEMENT_APP(MyApp);
 
 MainWindow::MainWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Cocktail App", wxDefaultPosition, wxDefaultSize) {
 
+    wxImage image;
+    image.LoadFile("/mnt/c/Users/foxfo/Desktop/Pos4-Project/images/image1.jpeg", wxBITMAP_TYPE_JPEG);
+    wxImage scaledImage = image.Scale(500, 400);
+    wxStaticBitmap *staticBitmap1 = new wxStaticBitmap(this, wxID_ANY, wxBitmap(scaledImage));
+
     secondWindow = new SecondWindow(this);
     thirdWindow = new ThirdWindow(this);
 
@@ -29,12 +34,28 @@ MainWindow::MainWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Cocktail A
     wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
     wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer *sizerTitle = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *staticTextSizer = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *staticImageSizer = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *anotherHSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *anotherVSizer = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer *topDisplaySizer = new wxBoxSizer(wxHORIZONTAL);
 
-    wxButton *myButtonDelete = new wxButton(this, wxID_ANY, "Delete");
-    wxButton *myButtonClose = new wxButton(this, wxID_ANY, "Close", wxPoint(800, 860), wxDefaultSize);
-    wxButton *myButtonShow = new wxButton(this, wxID_ANY, "Show Cocktail");
+    wxBoxSizer *titleSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *bodySizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *bottomSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *overallSizer = new wxBoxSizer(wxVERTICAL);
+
+    
+    wxButton *myButtonClose = new wxButton(this, wxID_ANY, "Close", wxPoint(1300, 810), wxDefaultSize);
     wxButton *myButtonNew = new wxButton(this, wxID_ANY, "Add Cocktail");
+    wxButton *myButtonShow = new wxButton(this, wxID_ANY, "Add Incredient");
+    wxButton *myButtonDelete = new wxButton(this, wxID_ANY, "Delete");
     wxButton *myButtonRefresh = new wxButton(this, wxID_ANY, "Refresh");
+
+    wxStaticText *staticTextName = new wxStaticText(this, wxID_ANY, "Name: ");
+    wxStaticText *staticTextBeschreibung = new wxStaticText(this, wxID_ANY, "\nBeschreibung:\n");
+    wxStaticText *staticTextZutat = new wxStaticText(this, wxID_ANY, "zutatStr:\n");
+
 
     myButtonShow->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &MainWindow::OnButtonClicked, this);
     myButtonNew->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &MainWindow::OnButtonAddClicked, this);
@@ -44,7 +65,7 @@ MainWindow::MainWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Cocktail A
 
     
     sqlite3 *db;
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/foxfo/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no open");
@@ -59,12 +80,11 @@ MainWindow::MainWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Cocktail A
         return;
     }
 
-    listCtrl = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(600, 400), wxLC_REPORT);
-    listCtrl->InsertColumn(0, "ID", 0, 60);
+    listCtrl = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(500, 400), wxLC_REPORT);
+    listCtrl->InsertColumn(0, "ID", 0, 50);
     listCtrl->InsertColumn(1, "Name", 0, 200);
-    listCtrl->InsertColumn(2, "Beschreibung", 0 , 340);
+    listCtrl->InsertColumn(2, "Beschreibung", 0 , 250);
     
-
     while (sqlite3_step(stmt) == SQLITE_ROW) {
 
         int id = sqlite3_column_int(stmt, 0);
@@ -80,24 +100,99 @@ MainWindow::MainWindow(wxWindow *parent) : wxFrame(parent, wxID_ANY, "Cocktail A
     font.SetPointSize(17);
     staticText->SetFont(font);
 
+
+    listCtrl->Bind(wxEVT_LIST_ITEM_SELECTED, [this, staticTextName, staticTextBeschreibung, staticTextZutat, staticTextSizer](wxListEvent& event) {
+        long index = event.GetIndex();
+        wxString id = listCtrl->GetItemText(index, 0);
+        wxString name = listCtrl->GetItemText(index, 1);
+        wxString beschreibung = listCtrl->GetItemText(index, 2);
+        wxString zutatStr = "";
+
+        staticTextName->SetLabel("Name: " + name);
+        staticTextBeschreibung->SetLabel("\nBeschreibung: \n" + beschreibung);
+
+        sqlite3 *db;
+        int rc = sqlite3_open("/mnt/c/Users/foxfo/Desktop/Pos4-Project/cocktail_db.db", &db);
+
+        if (rc != SQLITE_OK) {
+            wxMessageBox("db says no open");
+            return;
+        }
+
+        sqlite3_stmt *stmt;
+        wxString query = wxString::Format("SELECT zutaten.name, cocktail_list.menge, cocktail_list.einheit FROM zutaten INNER JOIN cocktail_list ON zutaten.id = cocktail_list.zutat_id WHERE cocktail_list.cocktail_id = %s", id);
+        rc = sqlite3_prepare_v2(db, query.utf8_str(), -1, &stmt, NULL);
+
+        if (rc != SQLITE_OK) {
+            wxMessageBox("db says no prepare");
+            return;
+        }
+
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const unsigned char *name = sqlite3_column_text(stmt, 0);
+            int menge = sqlite3_column_int(stmt, 1);
+            const unsigned char *einheit = sqlite3_column_text(stmt, 2);
+
+            zutatStr += wxString::Format("%s %d %s\n", wxString::FromUTF8((const char*)name), menge, wxString::FromUTF8((const char*)einheit));
+            staticTextZutat->SetLabel(zutatStr);
+        }
+
+        Layout();
+    });
+/* 
+    staticTextSizer->Add(staticTextName, 0, wxTOP, 50);
+    staticTextSizer->Add(staticTextBeschreibung, 0, wxTOP, 20);
+    staticTextSizer->Add(staticBitmap1, 0, wxTOP, 10);
+    staticTextSizer->Add(staticTextZutat, 0, wxTOP, 50);
+
     sizerTitle->Add(staticText);
+
     BoxSizer->Add(sizerTitle);
     BoxSizer->Add(listCtrl,0, wxTOP, 20);
+    
+    topDisplaySizer->Add(BoxSizer, 0, wxLEFT, 10);
 
-    buttonSizer->Add(myButtonShow, 0, wxALL, 5);
-    buttonSizer->Add(myButtonNew, 0, wxALL, 5);
-    buttonSizer->Add(myButtonRefresh, 0, wxALL, 5);
-    buttonSizer->Add(myButtonDelete, 0, wxALL, 5);
+    anotherHSizer->Add(topDisplaySizer);
+    anotherHSizer->Add(staticImageSizer);
+    anotherHSizer->Add(staticTextSizer, 0, wxLEFT, 10);
 
-    mainSizer->Add(BoxSizer, 0, wxALL, 20);
-    mainSizer->Add(buttonSizer, 0, wxALL, 20);
+    buttonSizer->Add(myButtonNew, 0, wxLEFT, 15);
+    buttonSizer->Add(myButtonShow, 0, wxLEFT, 20);
+    buttonSizer->Add(myButtonDelete, 0, wxLEFT, 20);
+    buttonSizer->Add(myButtonRefresh, 0, wxLEFT, 20);
 
+    anotherVSizer->Add(anotherHSizer, 0, wxALL, 20);
+    anotherVSizer->Add(buttonSizer, 0, wxALL, 5);
+ */
+
+
+    titleSizer->Add(staticText);
+
+    staticTextSizer->Add(staticTextName, 0, wxTOP, 50);
+    staticTextSizer->Add(staticTextBeschreibung, 0, wxTOP, 20);
+    staticTextSizer->Add(staticTextZutat, 0, wxTOP, 50);
+
+    bodySizer->Add(listCtrl);
+    bodySizer->Add(staticBitmap1);
+    bodySizer->Add(staticTextSizer);
+
+    bottomSizer->Add(myButtonNew);
+    bottomSizer->Add(myButtonShow);
+    bottomSizer->Add(myButtonDelete);
+    bottomSizer->Add(myButtonRefresh);
+    
+    overallSizer->Add(titleSizer, 0, wxALL, 20);
+    overallSizer->Add(bodySizer, 0, wxALL, 20);
+    overallSizer->Add(bottomSizer, 0, wxALL, 20);
+
+    mainSizer->Add(overallSizer);
     SetSizer(mainSizer);
-
 }
 
 void MainWindow::OnButtonClicked(wxCommandEvent &event) {
 
+    SecondWindow *secondWindow = new SecondWindow(NULL);
+    thirdWindow->CentreOnScreen();
     secondWindow->Show(true);
 }
 
@@ -122,7 +217,7 @@ void MainWindow::OnButtonDeleteClicked(wxCommandEvent& event) {
     wxString id = listCtrl->GetItemText(itemIndex);
 
     sqlite3 *db;
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/foxfo/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no open");
@@ -149,7 +244,7 @@ void MainWindow::UpdateList() {
     listCtrl->DeleteAllItems();
 
     sqlite3 *db;
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
+    int rc = sqlite3_open("/mnt/c/Users/foxfo/Desktop/Pos4-Project/cocktail_db.db", &db);
 
     if (rc != SQLITE_OK) {
         wxMessageBox("db says no open");
@@ -183,45 +278,5 @@ void MainWindow::OnButtonCloseClicked(wxCommandEvent& event) {
     this->Close();
 }
 
-
 MainWindow::~MainWindow() {}
-
-
-
-/* 
-void MainWindow::UpdateListCtrl(wxListCtrl *listCtrl) {
-    listCtrl->ClearAll();
-
-    int rc = sqlite3_open("/mnt/c/Users/Robin/Desktop/Pos4-Project/cocktail_db.db", &db);
-
-    if (db == nullptr) {
-        std::cerr << "Error: Database connection is null" << std::endl;
-        return;
-    }
-    // Retrieve data from database
-    wxString sql = "SELECT cocktail.name, zutaten.name, cocktail_list.menge,cocktail_list.einheit FROM cocktail JOIN cocktail_list ON cocktail.id = cocktail_list.cocktail_id JOIN zutaten ON zutaten.id = cocktail_list.zutat_id";
-
-    sqlite3_stmt *stmt = nullptr;
-    rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
-    if (rc != SQLITE_OK) {
-        std::cerr << "Error: Failed to prepare SQL statement: " << sqlite3_errmsg(db) << std::endl;
-        return;
-    }
-    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-        const unsigned char *name = sqlite3_column_text(stmt, 0);
-        const unsigned char *zutat = sqlite3_column_text(stmt, 1);
-        int menge = sqlite3_column_int(stmt, 2);
-        const unsigned char *einheit = sqlite3_column_text(stmt, 3);
-        long index = listCtrl->InsertItem(listCtrl->GetItemCount(), wxString(name));
-        listCtrl->SetItem(index, 1, wxString(zutat));
-        listCtrl->SetItem(index, 2, wxString::Format("%d", menge));
-        listCtrl->SetItem(index, 3, wxString(einheit));
-    }
-    if (rc != SQLITE_DONE) {
-        std::cerr << "Error: Failed to retrieve data from database: " << sqlite3_errmsg(db) << std::endl;
-    }
-    sqlite3_finalize(stmt);
-}
-*/
-
 

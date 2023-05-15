@@ -1,21 +1,19 @@
 {
   "configurations": [
     {
-      "name": "windows-gcc-x64",
+      "name": "windows-gcc-x86",
       "includePath": [
-        "${workspaceFolder}/**",
-        "C:/Program Files (x86)/wxWidgets/include",
-        "C:/Program Files (x86)/wxWidgets/lib/gcc_x64_dll/mswud/"
+        "${workspaceFolder}/**"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
+      "compilerPath": "C:/MinGW/bin/gcc.exe",
       "cStandard": "${default}",
       "cppStandard": "${default}",
-      "intelliSenseMode": "windows-gcc-x64"
+      "intelliSenseMode": "windows-gcc-x86"
     }
   ],
   "version": 4
